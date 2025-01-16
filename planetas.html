@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(PlanetasApp());
+  runApp(MyApp());
 }
 
-class PlanetasApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,75 +12,129 @@ class PlanetasApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PlanetasHomePage(),
+      home: HomePage(),
     );
   }
 }
 
-class PlanetasHomePage extends StatelessWidget {
-  final List<Map<String, String>> planetas = [
-    {
-      'nome': 'Mercúrio',
-      'info': 'Mercúrio é o planeta mais próximo do Sol e o menor do Sistema Solar.',
-    },
-    {
-      'nome': 'Vênus',
-      'info': 'Vênus é o segundo planeta do Sistema Solar e é conhecido por sua atmosfera densa.',
-    },
-    {
-      'nome': 'Terra',
-      'info': 'A Terra é o terceiro planeta do Sistema Solar e o único conhecido por abrigar vida.',
-    },
-    {
-      'nome': 'Marte',
-      'info': 'Marte é conhecido como o "Planeta Vermelho" devido à sua aparência.',
-    },
-    {
-      'nome': 'Júpiter',
-      'info': 'Júpiter é o maior planeta do Sistema Solar e possui uma Grande Mancha Vermelha.',
-    },
-    {
-      'nome': 'Saturno',
-      'info': 'Saturno é famoso por seus anéis distintos compostos de gelo e poeira.',
-    },
-    {
-      'nome': 'Urano',
-      'info': 'Urano tem uma rotação axial única, inclinada quase de lado.',
-    },
-    {
-      'nome': 'Netuno',
-      'info': 'Netuno é conhecido por seus ventos extremamente fortes e sua cor azul profunda.',
-    },
-  ];
+class HomePage extends StatelessWidget {
+  final Map<int, String> planetInfo = {
+    1: 'Mercúrio',
+    2: 'Vênus',
+    3: 'Terra',
+    4: 'Marte',
+    5: 'Júpiter',
+    6: 'Saturno',
+    7: 'Urano',
+    8: 'Netuno',
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Informações dos Planetas'),
+        title: Text('Escolha um Planeta'),
       ),
-      body: ListView.builder(
-        itemCount: planetas.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(planetas[index]['nome']!),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text(planetas[index]['nome']!),
-                  content: Text(planetas[index]['info']!),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text('Fechar'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Escolha um número de 1 a 8 para o planeta:',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            for (int i = 1; i <= 8; i++)
+              ElevatedButton(
+                onPressed: () {
+                  // Ao clicar, redireciona para a tela de informações do planeta
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlanetDetailPage(planetNumber: i),
                     ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
+                  );
+                },
+                child: Text(planetInfo[i]!),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PlanetDetailPage extends StatelessWidget {
+  final int planetNumber;
+
+  PlanetDetailPage({required this.planetNumber});
+
+  final Map<int, Map<int, String>> planetDetails = {
+    1: {1: 'Mercúrio é o planeta mais próximo do Sol.',
+         2: 'Mercúrio é muito pequeno e não tem atmosfera significativa.',
+         3: 'Mercúrio possui temperaturas extremas, com variação de -180°C a 430°C.'},
+    2: {1: 'Vênus é o planeta mais parecido com a Terra.',
+         2: 'Vênus tem uma atmosfera densa composta principalmente de dióxido de carbono.',
+         3: 'Vênus possui temperaturas de até 460°C na sua superfície.'},
+    3: {1: 'A Terra é o único planeta conhecido com vida.',
+         2: 'A Terra tem uma atmosfera rica em oxigênio e água em estado líquido.',
+         3: 'A Terra gira ao redor do Sol em uma órbita elíptica a 29,78 km/s.'},
+    4: {1: 'Marte é conhecido como o "Planeta Vermelho".',
+         2: 'Marte tem a maior montanha do sistema solar, o Monte Olimpo.',
+         3: 'Marte possui estações climáticas semelhantes às da Terra.'},
+    5: {1: 'Júpiter é o maior planeta do sistema solar.',
+         2: 'Júpiter tem uma atmosfera composta de hidrogênio e hélio.',
+         3: 'Júpiter possui uma enorme mancha vermelha, que é uma tempestade gigante.'},
+    6: {1: 'Saturno é famoso pelos seus anéis.',
+         2: 'Saturno é um gigante gasoso composto principalmente por hidrogênio e hélio.',
+         3: 'Saturno possui 82 luas confirmadas.'},
+    7: {1: 'Urano é um planeta gasoso com uma cor azul-esverdeada.',
+         2: 'Urano é inclinado de tal forma que gira quase de lado.',
+         3: 'Urano possui anéis, mas eles são menos visíveis que os de Saturno.'},
+    8: {1: 'Netuno é o planeta mais distante do Sol.',
+         2: 'Netuno possui ventos extremamente fortes, chegando a 2.100 km/h.',
+         3: 'Netuno é composto principalmente por hidrogênio, hélio e metano.'},
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detalhes de ${planetDetails[planetNumber]!.values.first.split(" ")[0]}'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Escolha uma opção para saber mais sobre ${planetDetails[planetNumber]!.values.first.split(" ")[0]}:',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            for (int i = 1; i <= 3; i++)
+              ElevatedButton(
+                onPressed: () {
+                  // Exibe a característica do planeta selecionado
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Detalhe do Planeta'),
+                      content: Text(planetDetails[planetNumber]![i]!),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('Fechar'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: Text('Opção $i'),
+              ),
+          ],
+        ),
       ),
     );
   }
