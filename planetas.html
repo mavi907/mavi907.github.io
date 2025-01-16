@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  final Map<int, String> planetInfo = {
+  final Map<int, String> planetNames = {
     1: 'Mercúrio',
     2: 'Vênus',
     3: 'Terra',
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
             for (int i = 1; i <= 8; i++)
               ElevatedButton(
                 onPressed: () {
-                  // Ao clicar, redireciona para a tela de informações do planeta
+                  // Ao clicar no botão, redireciona para a página do planeta selecionado
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text(planetInfo[i]!),
+                child: Text(planetNames[i]!),
               ),
           ],
         ),
@@ -70,38 +70,67 @@ class PlanetDetailPage extends StatelessWidget {
 
   PlanetDetailPage({required this.planetNumber});
 
+  // Informações dos planetas
   final Map<int, Map<int, String>> planetDetails = {
-    1: {1: 'Mercúrio é o planeta mais próximo do Sol.',
-         2: 'Mercúrio é muito pequeno e não tem atmosfera significativa.',
-         3: 'Mercúrio possui temperaturas extremas, com variação de -180°C a 430°C.'},
-    2: {1: 'Vênus é o planeta mais parecido com a Terra.',
-         2: 'Vênus tem uma atmosfera densa composta principalmente de dióxido de carbono.',
-         3: 'Vênus possui temperaturas de até 460°C na sua superfície.'},
-    3: {1: 'A Terra é o único planeta conhecido com vida.',
-         2: 'A Terra tem uma atmosfera rica em oxigênio e água em estado líquido.',
-         3: 'A Terra gira ao redor do Sol em uma órbita elíptica a 29,78 km/s.'},
-    4: {1: 'Marte é conhecido como o "Planeta Vermelho".',
-         2: 'Marte tem a maior montanha do sistema solar, o Monte Olimpo.',
-         3: 'Marte possui estações climáticas semelhantes às da Terra.'},
-    5: {1: 'Júpiter é o maior planeta do sistema solar.',
-         2: 'Júpiter tem uma atmosfera composta de hidrogênio e hélio.',
-         3: 'Júpiter possui uma enorme mancha vermelha, que é uma tempestade gigante.'},
-    6: {1: 'Saturno é famoso pelos seus anéis.',
-         2: 'Saturno é um gigante gasoso composto principalmente por hidrogênio e hélio.',
-         3: 'Saturno possui 82 luas confirmadas.'},
-    7: {1: 'Urano é um planeta gasoso com uma cor azul-esverdeada.',
-         2: 'Urano é inclinado de tal forma que gira quase de lado.',
-         3: 'Urano possui anéis, mas eles são menos visíveis que os de Saturno.'},
-    8: {1: 'Netuno é o planeta mais distante do Sol.',
-         2: 'Netuno possui ventos extremamente fortes, chegando a 2.100 km/h.',
-         3: 'Netuno é composto principalmente por hidrogênio, hélio e metano.'},
+    1: {
+      1: 'Mercúrio é o planeta mais próximo do Sol.',
+      2: 'Mercúrio é pequeno e não tem atmosfera significativa.',
+      3: 'Mercúrio tem temperaturas extremas, de -180°C a 430°C.',
+    },
+    2: {
+      1: 'Vênus é o planeta mais parecido com a Terra.',
+      2: 'Vênus tem uma atmosfera densa composta principalmente de dióxido de carbono.',
+      3: 'Vênus possui temperaturas de até 460°C na sua superfície.',
+    },
+    3: {
+      1: 'A Terra é o único planeta conhecido com vida.',
+      2: 'A Terra tem uma atmosfera rica em oxigênio e água em estado líquido.',
+      3: 'A Terra gira ao redor do Sol em uma órbita elíptica a 29,78 km/s.',
+    },
+    4: {
+      1: 'Marte é conhecido como o "Planeta Vermelho".',
+      2: 'Marte tem a maior montanha do sistema solar, o Monte Olimpo.',
+      3: 'Marte possui estações climáticas semelhantes às da Terra.',
+    },
+    5: {
+      1: 'Júpiter é o maior planeta do sistema solar.',
+      2: 'Júpiter tem uma atmosfera composta de hidrogênio e hélio.',
+      3: 'Júpiter possui uma enorme mancha vermelha, que é uma tempestade gigante.',
+    },
+    6: {
+      1: 'Saturno é famoso pelos seus anéis.',
+      2: 'Saturno é um gigante gasoso composto principalmente por hidrogênio e hélio.',
+      3: 'Saturno possui 82 luas confirmadas.',
+    },
+    7: {
+      1: 'Urano é um planeta gasoso com uma cor azul-esverdeada.',
+      2: 'Urano é inclinado de tal forma que gira quase de lado.',
+      3: 'Urano possui anéis, mas eles são menos visíveis que os de Saturno.',
+    },
+    8: {
+      1: 'Netuno é o planeta mais distante do Sol.',
+      2: 'Netuno possui ventos extremamente fortes, chegando a 2.100 km/h.',
+      3: 'Netuno é composto principalmente por hidrogênio, hélio e metano.',
+    },
   };
 
   @override
   Widget build(BuildContext context) {
+    // Nomes dos planetas para exibir dinamicamente no título
+    final planetNames = {
+      1: 'Mercúrio',
+      2: 'Vênus',
+      3: 'Terra',
+      4: 'Marte',
+      5: 'Júpiter',
+      6: 'Saturno',
+      7: 'Urano',
+      8: 'Netuno',
+    };
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalhes de ${planetDetails[planetNumber]!.values.first.split(" ")[0]}'),
+        title: Text('Detalhes de ${planetNames[planetNumber]}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -109,14 +138,15 @@ class PlanetDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Escolha uma opção para saber mais sobre ${planetDetails[planetNumber]!.values.first.split(" ")[0]}:',
+              'Escolha uma opção para saber mais sobre ${planetNames[planetNumber]}:',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),
+            // Botões para selecionar uma das 3 opções de detalhes sobre o planeta
             for (int i = 1; i <= 3; i++)
               ElevatedButton(
                 onPressed: () {
-                  // Exibe a característica do planeta selecionado
+                  // Exibe as informações correspondentes ao botão clicado
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
