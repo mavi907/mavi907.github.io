@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(PlanetasApp());
+}
+
+class PlanetasApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Informações dos Planetas',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: PlanetasHomePage(),
+    );
+  }
+}
+
+class PlanetasHomePage extends StatelessWidget {
+  final List<Map<String, String>> planetas = [
+    {
+      'nome': 'Mercúrio',
+      'info': 'Mercúrio é o planeta mais próximo do Sol e o menor do Sistema Solar.',
+    },
+    {
+      'nome': 'Vênus',
+      'info': 'Vênus é o segundo planeta do Sistema Solar e é conhecido por sua atmosfera densa.',
+    },
+    {
+      'nome': 'Terra',
+      'info': 'A Terra é o terceiro planeta do Sistema Solar e o único conhecido por abrigar vida.',
+    },
+    {
+      'nome': 'Marte',
+      'info': 'Marte é conhecido como o "Planeta Vermelho" devido à sua aparência.',
+    },
+    {
+      'nome': 'Júpiter',
+      'info': 'Júpiter é o maior planeta do Sistema Solar e possui uma Grande Mancha Vermelha.',
+    },
+    {
+      'nome': 'Saturno',
+      'info': 'Saturno é famoso por seus anéis distintos compostos de gelo e poeira.',
+    },
+    {
+      'nome': 'Urano',
+      'info': 'Urano tem uma rotação axial única, inclinada quase de lado.',
+    },
+    {
+      'nome': 'Netuno',
+      'info': 'Netuno é conhecido por seus ventos extremamente fortes e sua cor azul profunda.',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Informações dos Planetas'),
+      ),
+      body: ListView.builder(
+        itemCount: planetas.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(planetas[index]['nome']!),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(planetas[index]['nome']!),
+                  content: Text(planetas[index]['info']!),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('Fechar'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
