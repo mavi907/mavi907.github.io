@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Meu App Flutter',
+      title: 'Aplicativo Responsivo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -22,15 +22,34 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meu App Flutter Web'),
+        title: Text('App Responsivo Flutter'),
       ),
       body: Center(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            if (constraints.maxWidth > 600) {
-              return Text('Tela Grande', style: TextStyle(fontSize: 24));
+            if (constraints.maxWidth < 600) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Tela Pequena', style: TextStyle(fontSize: 24)),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Botão'),
+                  ),
+                ],
+              );
             } else {
-              return Text('Tela Pequena', style: TextStyle(fontSize: 24));
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Tela Grande', style: TextStyle(fontSize: 24)),
+                  SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Botão'),
+                  ),
+                ],
+              );
             }
           },
         ),
@@ -38,4 +57,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
